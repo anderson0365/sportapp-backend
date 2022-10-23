@@ -136,6 +136,80 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Set profiles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"demographicProfile\": \"c893baa3-cf56-483b-a390-6149f48818f7\",\n    \"foodProfile\": \"1f6548f1-6d53-4412-8739-bc9302d542dd\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/athlete/set_profiles",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"athlete",
+						"set_profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Plan",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"plan\": \"premium\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/athlete/set_plan",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"athlete",
+						"set_plan"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

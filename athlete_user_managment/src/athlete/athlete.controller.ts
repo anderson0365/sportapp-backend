@@ -2,17 +2,20 @@ import { Body, Controller, Post, Put, Req, UseGuards, UseInterceptors, Headers, 
 import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
 import { AuthService } from '../auth/auth.service';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
-import { SimpleAthleteCreationDto } from './simple-athlete-creation.dto';
-import { AthleteEntity } from './athlete.entity';
+import { SimpleAthleteCreationDto } from './dtos/simple-athlete-creation.dto';
+import { AthleteEntity, PaymentPlanType } from './athlete.entity';
 import { plainToInstance } from 'class-transformer';
 import { AthleteService } from './athlete.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { CompleteAthleteDataDto } from './complete-athlete-data.dto';
+import { CompleteAthleteDataDto } from './dtos/complete-athlete-data.dto';
 import { CityService } from '../city/city.service';
 import { SportService } from '../sport/sport.service';
 import { SportEntity } from '../sport/sport.entity';
 import { RiskService } from '../risk/risk.service';
 import { RiskEntity } from 'src/risk/risk.entity';
+import { SetAthleteProfilesDto } from './dtos/set-athlete-profiles.dto';
+import { SetAthletePlanDto } from './dtos/set-athlete-plan.dto';
+import { BusinessError, BusinessLogicException } from 'src/shared/errors/business-errors';
 
 @Controller('athlete')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -77,6 +80,35 @@ export class AthleteController {
         athleteNewData.paymentPlan = athlete.paymentPlan;
         return this.removeAthletePassword(await this.athleteService.update(id, athleteNewData))
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Put('set_profiles')
+    async set_profiles(@Headers() headers: Record<string, string>, @Body() profilesInfo: SetAthleteProfilesDto){
+        const { athlete, id } = await this.athleteService.findOneByHeaders(headers);
+
+        if(profilesInfo.demographicProfile){
+            athlete.demographicProfile = profilesInfo.demographicProfile;
+        }
+
+        if(profilesInfo.foodProfile){
+            athlete.foodProfile = profilesInfo.foodProfile;
+        }
+
+        if(profilesInfo.sportProfile){
+            athlete.sportProfile = profilesInfo.sportProfile;
+        }
+
+        return this.removeAthletePassword(await this.athleteService.update(id, athlete))
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Put('set_plan')
+    async set_plan(@Headers() headers: Record<string, string>, @Body() planInfo: SetAthletePlanDto){
+        const { athlete, id } = await this.athleteService.findOneByHeaders(headers);
+        athlete.paymentPlan =  planInfo.plan;
+        return this.removeAthletePassword(await this.athleteService.update(id, athlete))
+    }
+
 
     removeAthletePassword(athlete: AthleteEntity) : any {
         const { password, ...result } = athlete
