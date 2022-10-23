@@ -12,10 +12,9 @@ import { CityService } from '../city/city.service';
 import { SportService } from '../sport/sport.service';
 import { SportEntity } from '../sport/sport.entity';
 import { RiskService } from '../risk/risk.service';
-import { RiskEntity } from 'src/risk/risk.entity';
+import { RiskEntity } from '../risk/risk.entity';
 import { SetAthleteProfilesDto } from './dtos/set-athlete-profiles.dto';
 import { SetAthletePlanDto } from './dtos/set-athlete-plan.dto';
-import { BusinessError, BusinessLogicException } from 'src/shared/errors/business-errors';
 
 @Controller('athlete')
 @UseInterceptors(BusinessErrorsInterceptor)

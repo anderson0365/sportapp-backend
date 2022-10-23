@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessError, BusinessLogicException } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { AthleteEntity } from './athlete.entity';
-import jwtConstants from 'src/shared/security/constants';
+import jwtConstants from '../shared/security/constants';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
