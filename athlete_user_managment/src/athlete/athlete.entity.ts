@@ -21,7 +21,7 @@ export enum Gender {
   FEMALE = 'female',
 }
 
-export enum PaymentPlatType {
+export enum PaymentPlanType {
   FREE = 'free',
   MEDIUM = 'medium',
   PREMIUM = 'premium',
@@ -86,8 +86,8 @@ export class AthleteEntity {
   @ManyToMany(() => RiskEntity, (risk) => risk.athletes)
   risks: RiskEntity[];
 
-  @Column({ default: PaymentPlatType.FREE })
-  paymentPlan: PaymentPlatType;
+  @Column({ default: PaymentPlanType.FREE })
+  paymentPlan: PaymentPlanType;
 
   @Column({ nullable: true })
   sportProfile: string;

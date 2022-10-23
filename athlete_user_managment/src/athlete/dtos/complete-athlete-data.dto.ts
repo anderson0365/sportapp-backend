@@ -1,5 +1,5 @@
 import { IsArray, IsEnum, IsInt, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
-import { Gender, IDType, NutritionType } from './athlete.entity';
+import { Gender, IDType, NutritionType } from '../athlete.entity';
 
 export class CompleteAthleteDataDto {
 
@@ -15,14 +15,14 @@ export class CompleteAthleteDataDto {
   readonly age: number;
 
   @IsEnum(IDType)
-  readonly idType: string;
+  readonly idType: IDType;
 
   @IsString()
   @IsNotEmpty()
   readonly idNumber: string;
 
   @IsEnum(Gender)
-  readonly gender: string;
+  readonly gender: Gender;
 
   @IsNumber()
   @Min(20)
@@ -44,5 +44,5 @@ export class CompleteAthleteDataDto {
   readonly sports: string[];
 
   @IsEnum(NutritionType)
-  readonly nutritionType: string;
+  readonly nutritionType: NutritionType;
 }
