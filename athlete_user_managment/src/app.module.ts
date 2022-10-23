@@ -25,7 +25,7 @@ import { RiskEntity } from './risk/risk.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '1234',
+      password: 'postgres',
       database: 'sportapp',
       entities: [AthleteEntity, CityEntity, CountryEntity, SportEntity, RiskEntity],
       dropSchema: true,
