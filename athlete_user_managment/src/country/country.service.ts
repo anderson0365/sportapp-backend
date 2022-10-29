@@ -12,7 +12,7 @@ export class CountryService {
     ){}
 
     async findAll(): Promise<CountryEntity[]> {
-        const countries: CountryEntity[] = await this.countryRepository.find({});
+        const countries: CountryEntity[] = await this.countryRepository.find({relations: ['cities']});
         return countries;
     }
 
