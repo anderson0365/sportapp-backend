@@ -1,10 +1,12 @@
-import { Controller, UseGuards, Headers, Get, Body } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { Controller, UseGuards, Headers, Get, Body, UseInterceptors } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AthleteService } from '../athlete/athlete.service';
 import { TrainingDayService } from './training-day.service';
 import { DateProgramInfoDto } from './dto/date-program-info.dto';
+import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 
 @Controller('training-day')
+@UseInterceptors(BusinessErrorsInterceptor)
 export class TrainingDayController {
   constructor(
     private readonly athleteService: AthleteService,
