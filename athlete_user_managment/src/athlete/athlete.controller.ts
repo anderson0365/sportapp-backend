@@ -62,7 +62,7 @@ export class AthleteController {
         athleteNewData.cityOfResidence = cityResidence;
         athleteNewData.sports = sportsList;
 
-        const imc = athleteNewData.weight / (athleteNewData.height * athleteNewData.height);
+        const imc = athleteNewData.weight / ((athleteNewData.height * athleteNewData.height)/10000);
         
         let athleteRisks: RiskEntity[] = []
         const allRisks = await this.riskService.findAll()
