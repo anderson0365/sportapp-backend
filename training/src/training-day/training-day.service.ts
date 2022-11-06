@@ -25,9 +25,14 @@ export class TrainingDayService {
     }
 
     async findOneByTrainingPlanAndDate(trainingPlan: string, date: string): Promise<TrainingDayEntity> {
-        const template: TrainingDayEntity = await this.trainigDayRepository.findOne({where: {date, trainingPlan: { id : trainingPlan} }, relations: ["activities"] } );
+        let template: TrainingDayEntity = null
+        if(trainingPlan && date){
+            template = await this.trainigDayRepository.findOne({where: {date, trainingPlan: { id : trainingPlan} }, relations: ["activities"] } );
+        }
+
         if (!template)
             throw new BusinessLogicException("Training date not found", BusinessError.NOT_FOUND);
+            
         return template;
     }
 
