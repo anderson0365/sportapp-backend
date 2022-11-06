@@ -55,7 +55,6 @@ export class ActivityService {
         place: place,
         start_at: this.getDateAndStartAt(2),
         duration: faker.datatype.number({ min: 30, max: 90, precision: 1 }),
-        date: (date !== undefined) ? date : this.getDateAndStartAt(1),
         type: null,
         image: null,
         trainingDays: null,
