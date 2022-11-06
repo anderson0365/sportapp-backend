@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TrainingAdditionalDataEntity } from '../training-additional-data/training-additional-data.entity';
 import { TrainingAdditionalDataService } from '../training-additional-data/training-additional-data.service';
@@ -37,5 +37,11 @@ export class ActivityController {
         trainingData.ended_at = time_to_set.time
         await this.trainingDataService.update(trainingData.id, trainingData)
         return await this.activityService.findOne(activityId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('routes/search')
+    async getRoutes(@Query('date') date?: string, @Query('place') place?: string) {
+      return await this.activityService.getRoutes(date, place);
     }
 }

@@ -29,6 +29,9 @@ export class ActivityEntity {
   duration: number;
 
   @Column()
+  date: string;
+
+  @Column()
   start_at: string;
 
   @Column()
