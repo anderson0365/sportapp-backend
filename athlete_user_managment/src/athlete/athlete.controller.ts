@@ -15,6 +15,7 @@ import { RiskService } from '../risk/risk.service';
 import { RiskEntity } from '../risk/risk.entity';
 import { SetAthleteProfilesDto } from './dtos/set-athlete-profiles.dto';
 import { SetAthletePlanDto } from './dtos/set-athlete-plan.dto';
+import { SetAthleteTrainingPlanDto } from './dtos/set-athlete-training-plan.dto';
 
 @Controller('athlete')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -54,14 +55,12 @@ export class AthleteController {
         sports.forEach(async (sport)=> {
             sportsList.push(await this.sportService.findOne(sport));
         })
-
         const athleteNewData: AthleteEntity = plainToInstance(AthleteEntity, newData);
         athleteNewData.completed = true;
         athleteNewData.cityOfBirth = cityBirth
         athleteNewData.cityOfResidence = cityResidence;
         athleteNewData.sports = sportsList;
-
-        const imc = athleteNewData.weight / (athleteNewData.height * athleteNewData.height);
+        const imc = athleteNewData.weight / ((athleteNewData.height * athleteNewData.height)/10000);
         
         let athleteRisks: RiskEntity[] = []
         const allRisks = await this.riskService.findAll()
@@ -108,6 +107,13 @@ export class AthleteController {
         return this.removeAthletePassword(await this.athleteService.update(id, athlete))
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Put('set_training_plan')
+    async set_training_plan(@Headers() headers: Record<string, string>, @Body() trainingPlan: SetAthleteTrainingPlanDto){
+        const { athlete, id } = await this.athleteService.findOneByHeaders(headers);
+        athlete.trainingPlan =  trainingPlan.id;
+        return this.removeAthletePassword(await this.athleteService.update(id, athlete))
+    }
 
     removeAthletePassword(athlete: AthleteEntity) : any {
         const { password, ...result } = athlete

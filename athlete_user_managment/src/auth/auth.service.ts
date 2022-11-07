@@ -24,6 +24,7 @@ export class AuthService {
         const payload = { email: req.user.email, sub: req.user.id };
         return {
             token: this.jwtService.sign(payload, { privateKey: constants.JWT_SECRET }),
+            completed: req.user.completed
         };
     }
 }
