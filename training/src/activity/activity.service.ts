@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessError, BusinessLogicException } from 'src/shared/errors/business-errors';
 import { Repository } from 'typeorm';
-import { ActivityEntity } from './activity.entity';
+import { ActivityEntity, ActivityType } from './activity.entity';
 
 import { faker } from '@faker-js/faker/locale/es_MX';
 import { PlaceEntity } from '../place/place.entity';
@@ -21,6 +21,10 @@ export class ActivityService {
         return template;
     }
 
+    async create(activity: ActivityEntity): Promise<ActivityEntity> {
+      return await this.activityRepository.save(activity);
+    }
+
     async update(id: string, activity: ActivityEntity): Promise<ActivityEntity> {
         const persistedTraining: ActivityEntity = await this.activityRepository.findOne({where:{id}});
         if (!persistedTraining)
@@ -29,23 +33,18 @@ export class ActivityService {
         return await this.activityRepository.save({...persistedTraining, ...activity});
     }
 
-    async getRoutes(date: string, place: string): Promise<ActivityEntity[]> {
+    async getRamdomActivities(): Promise<ActivityEntity[]> {
       let activities = [];
-      if (place !== undefined)
-        return activities;
       for (let i=0; i<faker.datatype.number({ min: 1, max: 10, precision: 1 }); i++) {
-        let activity = this.createRandomActivity(date);
-        delete activity['type'];
-        delete activity['image'];
+        let activity = this.createRandomActivity();
         delete activity['trainingDays'];
-        delete activity['sport'];
         delete activity['trainingAdditionalData'];
         activities.push(activity);
       }
       return activities;
     }
 
-    private createRandomActivity(date: string): ActivityEntity {
+    private createRandomActivity(): ActivityEntity {
       let place = this.createRandomPlace();
       delete place['activities'];
       return {
@@ -55,10 +54,10 @@ export class ActivityService {
         place: place,
         start_at: this.getDateAndStartAt(2),
         duration: faker.datatype.number({ min: 30, max: 90, precision: 1 }),
-        type: null,
-        image: null,
+        type: faker.datatype.number(1) == 0 ? ActivityType.TRAINING : ActivityType.EVENT,
+        image: faker.internet.avatar(),
+        sport: 'any',
         trainingDays: null,
-        sport: null,
         trainingAdditionalData: null
       };
     }
