@@ -54,7 +54,7 @@ export class ActivityService {
         place: place,
         start_at: this.getDateAndStartAt(2),
         duration: faker.datatype.number({ min: 30, max: 90, precision: 1 }),
-        type: faker.datatype.number(1) == 0 ? ActivityType.TRAINING : ActivityType.EVENT,
+        type: ActivityType.TRAINING,
         image: faker.internet.avatar(),
         sport: 'any',
         trainingDays: null,
