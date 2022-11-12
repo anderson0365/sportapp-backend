@@ -16,4 +16,11 @@ export class PlaceService {
         return await this.placeRepository.save(place);
       }
 
+    async findPlaceByName(name: string): Promise<PlaceEntity> {
+        return await this.placeRepository
+          .createQueryBuilder("place")
+          .where("lower(place.name) like lower(:name)", { name: `%${name}%` })
+          .getOne();
+      }
+
 }
