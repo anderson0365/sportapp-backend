@@ -39,9 +39,4 @@ export class ActivityController {
         return await this.activityService.findOne(activityId);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Get('routes/search')
-    async getRoutes(@Query('date') date?: string, @Query('place') place?: string) {
-      return await this.activityService.getRoutes(date, place);
-    }
 }
