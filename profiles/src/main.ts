@@ -6,9 +6,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.enableVersioning({
     type: VersioningType.URI,
-    prefix: 'api/v',
+    prefix: 'sv-profiles/api/v',
     defaultVersion: '1',
   });
-  await app.listen(3001);
+  await app.listen(process.env.PORT || 3001);
 }
 bootstrap();
