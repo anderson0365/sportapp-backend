@@ -23,7 +23,7 @@ export class ActivityService {
         'Bajada “Las Palmas”'
     ]
 
-    getAllActivities(): ActivityDto[] {
+    getAllActivities() {
         const result = []
         for (let i = 0; i < 10; i++) {
             result.push(
@@ -46,6 +46,6 @@ export class ActivityService {
             return 0;
         });
 
-        return result;
+        return { data: result};
     }
 }
