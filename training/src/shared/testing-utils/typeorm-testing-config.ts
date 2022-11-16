@@ -7,6 +7,7 @@ import { ActivityEntity } from '../../activity/activity.entity';
 import { PlaceEntity } from '../../place/place.entity';
 import { TemplateTrainigDayEntity } from '../../template-training-day/template-trainig-day.entity';
 import { TemplateTrainingPlanEntity } from '../../template-training-plan/template-training-plan.entity';
+import { VariableEntity } from 'src/variable/variable.entity';
 
 export const TypeOrmTestingConfig = () => [
   TypeOrmModule.forRoot({
@@ -20,7 +21,8 @@ export const TypeOrmTestingConfig = () => [
       TemplateTrainingPlanEntity,
       TrainingDayEntity,
       TrainingPlanEntity,
-      TrainingAdditionalDataEntity
+      TrainingAdditionalDataEntity,
+      VariableEntity
     ],
     synchronize: true,
     keepConnectionAlive: true 
@@ -32,6 +34,7 @@ export const TypeOrmTestingConfig = () => [
     TemplateTrainingPlanEntity,
     TrainingDayEntity,
     TrainingPlanEntity,
-    TrainingAdditionalDataEntity
+    TrainingAdditionalDataEntity,
+    VariableEntity
   ]),
 ];

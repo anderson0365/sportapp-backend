@@ -7,6 +7,8 @@ import { Athlete } from 'src/athlete/athlete';
 import { TemplateTrainingPlanService } from '../template-training-plan/template-training-plan.service';
 import { TemplateTrainingDayService } from 'src/template-training-day/template-training-day.service';
 import { TrainingDayService } from 'src/training-day/training-day.service';
+import { VariableService } from 'src/variable/variable.service';
+import { VariableEntity, VariableEntityType } from 'src/variable/variable.entity';
 
 @Injectable()
 export class TrainingPlanService {
@@ -16,6 +18,7 @@ export class TrainingPlanService {
         private readonly templateTrainingService: TemplateTrainingPlanService,
         private readonly templateTrainingDayService: TemplateTrainingDayService,
         private readonly trainingDayService: TrainingDayService,
+        private readonly variableService: VariableService,
     ){}
 
     async findOne(id: string): Promise<TrainingPlanEntity> {
@@ -84,6 +87,19 @@ export class TrainingPlanService {
         }
 
         trainingPlan.trainingDays =  trainingDays;
+
+        // create user default vaiables
+        const variables = [
+            new VariableEntity(VariableEntityType.PHYSIOLOGICAL, "blood pressure", "", "", athlete.id),
+            new VariableEntity(VariableEntityType.PHYSIOLOGICAL, "heart rate", "ppm", "", athlete.id),
+            new VariableEntity(VariableEntityType.PHYSIOLOGICAL, "breathing frequency", "", "", athlete.id),
+            new VariableEntity(VariableEntityType.PHYSIOLOGICAL, "oxygen saturation", "%", "", athlete.id),
+            new VariableEntity(VariableEntityType.PHYSIOLOGICAL, "temperature", "°C", "", athlete.id)
+        ]
+
+        for(let variable of variables){
+            this.variableService.create(variable)
+        }
 
         return trainingPlan;
     }
