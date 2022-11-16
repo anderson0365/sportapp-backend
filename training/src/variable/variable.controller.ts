@@ -17,6 +17,6 @@ export class VariableController {
     @Get('physiological')
     async getAthletePhysiologicalsVariables(@Headers() headers: Record<string, string>) {
       const athleteId = await this.athleteService.getAthleteId(headers);
-      return await this.variableService.getAthletePhysiologicalsVariables(athleteId);
+      return { data: await this.variableService.getAthletePhysiologicalsVariables(athleteId)};
     }
 }
