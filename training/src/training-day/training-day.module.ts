@@ -9,10 +9,11 @@ import { TrainingDayEntity } from './training-day.entity';
 import { TrainingDayService } from './training-day.service';
 import { ActivityEntity } from '../activity/activity.entity';
 import { PlaceEntity } from 'src/place/place.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([TrainingDayEntity, ActivityEntity, PlaceEntity]), HttpModule],
-  providers: [AthleteService, TrainingDayService, ActivityService, PlaceService],
+  providers: [AthleteService, TrainingDayService, ActivityService, PlaceService,JwtService],
   controllers: [TrainingDayController]
 })
 export class TrainingDayModule {}

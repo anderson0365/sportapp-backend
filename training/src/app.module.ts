@@ -23,6 +23,8 @@ import { RiskModule } from './risk/risk.module';
 import { AuthModule } from './auth/auth.module';
 import { TrainingAdditionalDataModule } from './training-additional-data/training-additional-data.module';
 import { TrainingAdditionalDataEntity } from './training-additional-data/training-additional-data.entity';
+import { VariableModule } from './variable/variable.module';
+import { VariableEntity } from './variable/variable.entity';
 
 
 @Module({
@@ -50,7 +52,8 @@ import { TrainingAdditionalDataEntity } from './training-additional-data/trainin
         TemplateTrainingPlanEntity,
         TrainingDayEntity,
         TrainingPlanEntity,
-        TrainingAdditionalDataEntity
+        TrainingAdditionalDataEntity,
+        VariableEntity
       ],
       dropSchema: true,
       synchronize: true,
@@ -60,6 +63,7 @@ import { TrainingAdditionalDataEntity } from './training-additional-data/trainin
     TrainingPlanModule,
     RiskModule,
     TrainingAdditionalDataModule,
+    VariableModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtService],
