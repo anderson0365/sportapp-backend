@@ -71,7 +71,7 @@ export class TrainingDayService {
     private async getTrainignDayByDate(trainingPlan: string, date: string): Promise<TrainingDayEntity> {
         let template: TrainingDayEntity = null
         if(trainingPlan && date){
-            template = await this.trainigDayRepository.findOne({where: {date, trainingPlan: { id : trainingPlan} }, relations: ["activities"] } );
+            template = await this.trainigDayRepository.findOne({where: {date, trainingPlan: { id : trainingPlan} }, relations: ["activities", "activities.trainingAdditionalData", "activities.place", "activities.partner"] } );
         }
         return template;
     }
