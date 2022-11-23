@@ -1,3 +1,4 @@
+import { ProductEntity } from "src/product/product.entity";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ActivityEntity } from "../activity/activity.entity";
 
@@ -16,4 +17,8 @@ export class PartnerEntity {
     @OneToMany(() => ActivityEntity, (activity) => activity.partner)
     @JoinColumn()
     activities: ActivityEntity[];
+
+    @OneToMany(() => ProductEntity, (product) => product.partner)
+    @JoinColumn()
+    products: ProductEntity[];
 }

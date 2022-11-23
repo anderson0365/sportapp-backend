@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Partner } from '../partner/partner';
 import { AthleteEntity } from '../athlete/athlete.entity';
 import { AthleteService } from '../athlete/athlete.service';
 import constants from '../shared/security/constants';
@@ -17,6 +18,7 @@ export class AuthService {
             const { password, ...result } = user;
             return result;
         }
+        //const partner: Partner = 
         return null;
     }
 
