@@ -47,10 +47,11 @@ export class AthleteService {
     }
 
     async update(id: string, athlete: AthleteEntity): Promise<AthleteEntity> {
+        console.log(athlete)
         const persistedAthlete: AthleteEntity = await this.athleteRepository.findOne({where:{id}});
         if (!persistedAthlete)
           throw new BusinessLogicException("The athlete with the given id was not found", BusinessError.NOT_FOUND);
-        
+        console.log({...persistedAthlete, ...athlete})
         return await this.athleteRepository.save({...persistedAthlete, ...athlete});
     }
 

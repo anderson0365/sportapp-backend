@@ -11,13 +11,12 @@ phases:
       - pip install --upgrade awscli
       - echo Installing source NPM dependencies...
       - cd $MICROSERVICE_NAME
-      - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
   pre_build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $IMAGE_REPO_NAME --build-arg POSTRES_HOST_ARG=$POSTRES_HOST --build-arg PROD_URL_ARG=$PROD_URL .
+      - docker build -t $IMAGE_REPO_NAME .
       - docker tag $IMAGE_REPO_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
   build:
     commands:
