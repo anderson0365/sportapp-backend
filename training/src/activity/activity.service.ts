@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { ActivityEntity, ActivityType } from './activity.entity';
 
 import { faker } from '@faker-js/faker/locale/es_MX';
-import { PlaceEntity } from '../place/place.entity';
 import { PlaceService } from '../place/place.service';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class ActivityService {
     ){}
 
     async findOne(id: string): Promise<ActivityEntity> {
-        const template: ActivityEntity = await this.activityRepository.findOne({where: {id}, relations: ["trainingAdditionalData"] } );
+        const template: ActivityEntity = await this.activityRepository.findOne({where: {id}, relations: ["trainingAdditionalData", "place", "partner"] } );
         if (!template)
           throw new BusinessLogicException("The activity with the given id was not found", BusinessError.NOT_FOUND);
         return template;
@@ -61,7 +60,8 @@ export class ActivityService {
         image: faker.internet.avatar(),
         sport: 'any',
         trainingDays: null,
-        trainingAdditionalData: null
+        trainingAdditionalData: null,
+        partner: null,
       };
     }
 

@@ -1105,3 +1105,7 @@ insert into place_entity (name, address, city) values ('Parkside', '327 Gina Jun
 insert into place_entity (name, address, city) values ('Tennessee', '44 Everett Circle', 'General Roca');
 insert into place_entity (name, address, city) values ('Banding', '91 Morrow Parkway', 'Aveiro');
 insert into place_entity (name, address, city) values ('Acker', '18414 Marcy Junction', 'Bitaogan');
+
+/* Partners */
+insert into partner_entity (name, email, password) values ('Luis Diaz', 'luis.diaz@gmail.com', '1234');
+insert into partner_entity (name, email, password) values ('Andrea Gomez', 'andrea.gomez@outlook.com', '1234');

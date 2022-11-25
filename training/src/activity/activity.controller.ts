@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post, Headers, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Headers, UseGuards, Put } from '@nestjs/common';
 import { AthleteService } from 'src/athlete/athlete.service';
+import { PartnerEntity } from 'src/partner/partner.entity';
 import { VariableService } from 'src/variable/variable.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TrainingAdditionalDataEntity } from '../training-additional-data/training-additional-data.entity';
@@ -51,4 +52,15 @@ export class ActivityController {
         return await this.activityService.findOne(activityId);
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Put(':activityId/partner/:partnerId')
+    async update(@Param('activityId') activityId: string, @Param('partnerId') partnerId: string) {
+      const activity =  await this.activityService.findOne(activityId);
+      let partner = new PartnerEntity();
+      partner.id = partnerId;
+      activity.partner = partner;
+      let newActivity = await this.activityService.update(activityId, activity);
+      delete newActivity['partner']
+      return newActivity
+    }
 }

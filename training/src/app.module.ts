@@ -25,6 +25,10 @@ import { TrainingAdditionalDataModule } from './training-additional-data/trainin
 import { TrainingAdditionalDataEntity } from './training-additional-data/training-additional-data.entity';
 import { VariableModule } from './variable/variable.module';
 import { VariableEntity } from './variable/variable.entity';
+import { PartnerModule } from './partner/partner.module';
+import { PartnerEntity } from './partner/partner.entity';
+import { ProductModule } from './product/product.module';
+import { ProductEntity } from './product/product.entity';
 
 
 @Module({
@@ -38,6 +42,8 @@ import { VariableEntity } from './variable/variable.entity';
     PlaceModule,
     TemplateTrainingPlanModule,
     TemplateTrainingDayModule,
+    PartnerModule,
+    ProductModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTRES_HOST ||'localhost',
@@ -53,7 +59,9 @@ import { VariableEntity } from './variable/variable.entity';
         TrainingDayEntity,
         TrainingPlanEntity,
         TrainingAdditionalDataEntity,
-        VariableEntity
+        VariableEntity,
+        PartnerEntity,
+        ProductEntity,
       ],
       dropSchema: true,
       synchronize: true,
@@ -64,6 +72,7 @@ import { VariableEntity } from './variable/variable.entity';
     RiskModule,
     TrainingAdditionalDataModule,
     VariableModule,
+    PartnerModule
   ],
   controllers: [AppController],
   providers: [AppService, JwtService],
