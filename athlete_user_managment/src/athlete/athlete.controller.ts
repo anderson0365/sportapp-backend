@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Req, UseGuards, UseInterceptors, Headers, Get } from '@nestjs/common';
+import { Body, Controller, Post, Put, Req, UseGuards, UseInterceptors, Headers, Get, Param } from '@nestjs/common';
 import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
 import { AuthService } from '../auth/auth.service';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
@@ -42,6 +42,13 @@ export class AthleteController {
     @Get()
     async getUserByToken(@Headers() headers: Record<string, string>){
         const { athlete } = await this.athleteService.findOneByHeaders(headers);
+        return this.removeAthletePassword(athlete)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('trainingPlan/:trainingPlanId')
+    async getUserByTrainingPlan(@Param('trainingPlanId') trainingPlanId: string,){
+        let athlete = await this.athleteService.findOneByTrainingPlan(trainingPlanId);
         return this.removeAthletePassword(athlete)
     }
 
