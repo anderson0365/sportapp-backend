@@ -5,10 +5,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { PartnerEntity } from "./partner.entity";
 import { PartnerService } from "./partner.service";
 import { PartnerController } from './partner.controller';
+import { ActivityEntity } from "../activity/activity.entity";
+import { AthleteService } from "../athlete/athlete.service";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([PartnerEntity]), HttpModule],
-    providers: [PartnerService, JwtService],
+    imports: [TypeOrmModule.forFeature([PartnerEntity, ActivityEntity]), HttpModule],
+    providers: [PartnerService, JwtService, AthleteService],
     controllers: [PartnerController],
   })
   export class PartnerModule {}

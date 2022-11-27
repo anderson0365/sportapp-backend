@@ -25,6 +25,18 @@ export class AthleteService {
     );
   }
 
+  async getAthleteByTrainingPlan(token: string, trainingPlanId: string): Promise<Athlete> {
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    };
+    return await lastValueFrom(
+      this.httpService
+        .get(athleteUserManagmentServiceURL + '/athlete/trainingPlan/' + trainingPlanId, { headers })
+        .pipe(map((response) => response.data)),
+    );
+  }
+
   async setAthleteTrainingPlan(token: string, trainingPlanId): Promise<Athlete> {
     const headers = {
       'Content-Type': 'application/json',

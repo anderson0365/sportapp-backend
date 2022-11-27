@@ -32,7 +32,13 @@ export class AthleteService {
         return {athlete, id};
     }
 
-
+    async findOneByTrainingPlan(trainingPlan: string): Promise<AthleteEntity> {
+      const athlete: AthleteEntity = await this.athleteRepository.findOne({where: {trainingPlan}} );
+      if (!athlete)
+          return null;
+ 
+      return athlete;
+  }
 
     async findOneByEmail(email: string): Promise<AthleteEntity> {
         const athlete: AthleteEntity = await this.athleteRepository.findOne({where: {email}, relations: ['cityOfBirth', 'cityOfResidence', 'sports', 'risks'] } );
