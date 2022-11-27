@@ -14,7 +14,7 @@ import { MonitorEntity } from './monitor/monitor.entity';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'sportapp_monitor',
+      database: 'postgres',
       entities: [
         MonitorEntity
       ],
