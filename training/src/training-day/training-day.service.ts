@@ -33,18 +33,16 @@ export class TrainingDayService {
         return await this.getExistingTrainingDay(trainingPlan, date);
     }
 
-    async checkTrainingDayForActivities(trainingPlan: string, date: string): Promise<TrainingDayEntity> {
+    async checkTrainingDayForActivities(trainingPlan: string, date: string, place: string, activityType: string): Promise<TrainingDayEntity> {
         let template = await this.getTrainignDayByDate(trainingPlan, date);
         if (!template)
             template = await this.generateNewTrainingDay(trainingPlan, date);
-        template.activities = await this.activityService.getRamdomActivities();
+        template.activities = await this.activityService.getRamdomActivities(place, activityType);
         return template;
     }
 
     async addActivityToTrainingDay(trainingPlan: string, date: string, activity: ActivityEntity): Promise<TrainingDayEntity> {
         let traningDay = await this.getExistingTrainingDay(trainingPlan, date);
-        let place = await this.placeService.create(activity.place)
-        activity.place = place;
         let newActivity = await this.activityService.create(activity)
         traningDay.activities = [...traningDay.activities, newActivity];
         return await this.trainigDayRepository.save(traningDay);
@@ -73,7 +71,7 @@ export class TrainingDayService {
     private async getTrainignDayByDate(trainingPlan: string, date: string): Promise<TrainingDayEntity> {
         let template: TrainingDayEntity = null
         if(trainingPlan && date){
-            template = await this.trainigDayRepository.findOne({where: {date, trainingPlan: { id : trainingPlan} }, relations: ["activities"] } );
+            template = await this.trainigDayRepository.findOne({where: {date, trainingPlan: { id : trainingPlan} }, relations: ["activities", "activities.trainingAdditionalData", "activities.place", "activities.partner"] } );
         }
         return template;
     }

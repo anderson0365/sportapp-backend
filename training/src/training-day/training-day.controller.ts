@@ -32,10 +32,12 @@ export class TrainingDayController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('activities/:date')
+  @Post('activities/:date/place/:place/activity-type/:type')
   async checkTrainingDayForActivities(
     @Headers() headers: Record<string, string>,
     @Param('date') date: string,
+    @Param('place') place: string,
+    @Param('type') type: string,
   ) {
     const athlete = await this.athleteService.getAthleteByToken(
       headers.authorization,
@@ -43,6 +45,8 @@ export class TrainingDayController {
     return this.trainingDayService.checkTrainingDayForActivities(
       athlete.trainingPlan,
       date,
+      place,
+      type,
     );
   }
 

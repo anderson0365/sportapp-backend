@@ -32,7 +32,13 @@ export class AthleteService {
         return {athlete, id};
     }
 
-
+    async findOneByTrainingPlan(trainingPlan: string): Promise<AthleteEntity> {
+      const athlete: AthleteEntity = await this.athleteRepository.findOne({where: {trainingPlan}} );
+      if (!athlete)
+          return null;
+ 
+      return athlete;
+  }
 
     async findOneByEmail(email: string): Promise<AthleteEntity> {
         const athlete: AthleteEntity = await this.athleteRepository.findOne({where: {email}, relations: ['cityOfBirth', 'cityOfResidence', 'sports', 'risks'] } );
@@ -47,10 +53,11 @@ export class AthleteService {
     }
 
     async update(id: string, athlete: AthleteEntity): Promise<AthleteEntity> {
+        console.log(athlete)
         const persistedAthlete: AthleteEntity = await this.athleteRepository.findOne({where:{id}});
         if (!persistedAthlete)
           throw new BusinessLogicException("The athlete with the given id was not found", BusinessError.NOT_FOUND);
-        
+        console.log({...persistedAthlete, ...athlete})
         return await this.athleteRepository.save({...persistedAthlete, ...athlete});
     }
 

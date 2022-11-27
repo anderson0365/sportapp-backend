@@ -1,0 +1,39 @@
+version: 0.2
+env:
+  variables:
+    S3_BUCKET: 'x'
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+    commands:
+      - apt-get -y update
+      - pip install --upgrade awscli
+      - echo Installing source NPM dependencies...
+      - cd $MICROSERVICE_NAME
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  pre_build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $IMAGE_REPO_NAME --build-arg POSTRES_HOST_ARG=$POSTRES_HOST --build-arg QUEUE_ARG=$QUEUE --build-arg QUEUE_URL_ARG=$QUEUE_URL --build-arg AWS_REGION_ARG=$AWS_REGION  --build-arg ACCESS_KEY_ID_ARG=$ACCESS_KEY_ID --build-arg SECRET_ACCESS_KEY_ARG=$SECRET_ACCESS_KEY  .
+      - docker tag $IMAGE_REPO_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+  build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME  $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest > imagedefinitions.json
+      - printf '{"ImageURI":"%s"}' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest > imageDetail.json
+      - cat imagedefinitions.json 
+
+artifacts:
+  files:
+    - '**/*'
+    - $MICROSERVICE_NAME/imagedefinitions.json
+    - $MICROSERVICE_NAME/imageDetail.json
+  secondary-artifacts:
+    ImageArtifact:
+      files:
+        - $MICROSERVICE_NAME/imageDetail.json

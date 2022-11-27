@@ -25,7 +25,6 @@ export class TrainingPlanController {
               await this.athleteService.setAthleteTrainingPlan( headers.authorization, trainingPlan.id);
       
               return trainingPlan;
-    
       }
 
       @UseGuards(JwtAuthGuard)
