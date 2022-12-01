@@ -6,4 +6,3 @@ export const config = {
     ACCESS_KEY_ID: process.env.ACCESS_KEY_ID || "poner_aws_key_id",
     SECRET_ACCESS_KEY:process.env.SECRET_ACCESS_KEY ||  "poner_secret_access_key",
 };
-

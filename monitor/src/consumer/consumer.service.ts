@@ -7,7 +7,7 @@ import { config } from '../config';
 @Injectable()
 export class MessageHandler {
     constructor() { }
-    @SqsMessageHandler(config.QUEUE, false)
+
     async handleMessage(message: AWS.SQS.Message) {
         const data: any = JSON.parse(message.Body) as {
             message: string;
